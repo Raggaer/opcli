@@ -1,10 +1,8 @@
 mod args;
+mod command;
 
 use std::env;
 use std::process;
-
-use getopts::Matches;
-use getopts::Options;
 
 fn main() {
     // Build args vector removing first element (application name)
@@ -15,10 +13,10 @@ fn main() {
         .collect();
 
     let opts = args::build_args();
-    let mut opts_matches = match opts.parse(args) {
+    let opts_matches = match opts.parse(args) {
         Ok(m) => m,
         Err(e) => {
-            eprintln!("Unable to parse application arguments: {}", e);
+            eprintln!("{}", e);
             process::exit(1);
         }
     };
@@ -28,5 +26,17 @@ fn main() {
 fn run(opts: getopts::Options, matches: getopts::Matches) {
     if matches.opt_present("h") {
         args::print_usage(opts);
+        process::exit(1);
+    }
+    match matches.opt_str("c") {
+        Some(command) => match command.as_str() {
+            "get" => command::get::execute_command(
+                matches.opt_str("s"),
+                matches.opt_str("i"),
+                matches.opt_str("f"),
+            ),
+            _ => (),
+        },
+        None => process::exit(1),
     }
 }
