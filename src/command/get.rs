@@ -81,7 +81,7 @@ fn parse_get_item_output(
             // Loop over the provided field list
             let field_list = f.split(",");
             for field in field_list {
-                match field {
+                match field.trim() {
                     "uuid" => println!("UUID: {}", item.uuid),
                     "vaultUuid" => println!("Vault UUID: {}", item.vaultUuid),
                     "username" => println!("Username: {}", item.get_field("username".to_string())),
