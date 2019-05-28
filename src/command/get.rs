@@ -7,11 +7,12 @@ pub fn execute_command(
     sub: option::Option<string::String>,
     item: option::Option<string::String>,
     fields: option::Option<string::String>,
+    password_only: bool,
 ) {
     match sub {
         Some(s) => match s.as_str() {
             "item" => {
-                if let Err(e) = execute_get_item_command(item, fields) {
+                if let Err(e) = execute_get_item_command(item, fields, password_only) {
                     eprintln!("{}", e);
                 }
             }
@@ -27,6 +28,7 @@ pub fn execute_command(
 fn execute_get_item_command(
     item: option::Option<string::String>,
     fields: option::Option<string::String>,
+    password_only: bool,
 ) -> Result<(), Box<dyn error::Error>> {
     // Check if item is set
     if item.is_none() {
@@ -58,15 +60,22 @@ fn execute_get_item_command(
         )));
     }
 
-    return parse_get_item_output(stdout, fields);
+    return parse_get_item_output(stdout, fields, password_only);
 }
 
 // Convert command stdout into human readable text
 fn parse_get_item_output(
     output: &str,
     fields: option::Option<string::String>,
+    password_only: bool,
 ) -> Result<(), Box<dyn error::Error>> {
     let item: crate::command::OpItem = serde_json::from_str(output)?;
+
+    // Check if user only wants the password
+    if password_only {
+        crate::clipboard::write(item.get_field("password".to_string()))?;
+    }
+
     match fields {
         Some(f) => {
             // Loop over the provided field list
@@ -81,11 +90,7 @@ fn parse_get_item_output(
                 }
             }
         }
-        None => {
-            return Err(Box::new(crate::command::CommandJSONError(
-                "Missing field list".into(),
-            )));
-        }
+        None => (),
     }
     Ok(())
 }

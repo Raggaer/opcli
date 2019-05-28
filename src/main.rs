@@ -1,4 +1,5 @@
 mod args;
+mod clipboard;
 mod command;
 
 use std::env;
@@ -34,6 +35,7 @@ fn run(opts: getopts::Options, matches: getopts::Matches) {
                 matches.opt_str("s"),
                 matches.opt_str("i"),
                 matches.opt_str("f"),
+                matches.opt_present("pw"),
             ),
             _ => (),
         },
