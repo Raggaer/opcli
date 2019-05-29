@@ -47,7 +47,7 @@ fn parse_get_item_output(
     fields: option::Option<string::String>,
     password_only: bool,
 ) -> Result<(), Box<dyn error::Error>> {
-    let item: crate::command::OpItem = serde_json::from_str(output)?;
+    let item: crate::command::get::OpItem = serde_json::from_str(output)?;
 
     // Check if user only wants the password
     if password_only {
@@ -61,6 +61,7 @@ fn parse_get_item_output(
             for field in field_list {
                 match field.trim() {
                     "uuid" => println!("UUID: {}", item.uuid),
+                    "url" => println!("URL: {}", item.overview.url),
                     "vaultUuid" => println!("Vault UUID: {}", item.vaultUuid),
                     "username" => println!("Username: {}", item.get_field("username".to_string())),
                     "password" => println!("Password: {}", item.get_field("password".to_string())),
