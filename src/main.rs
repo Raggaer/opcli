@@ -31,12 +31,13 @@ fn run(opts: getopts::Options, matches: getopts::Matches) {
     }
     match matches.opt_str("c") {
         Some(command) => match command.as_str() {
-            "get" => command::execute_command(
+            "get" => command::execute_get_command(
                 matches.opt_str("s"),
                 matches.opt_str("i"),
                 matches.opt_str("f"),
                 matches.opt_present("pw"),
             ),
+            "list" => command::execute_list_command(matches.opt_str("s"), matches.opt_str("s")),
             _ => (),
         },
         None => process::exit(1),
