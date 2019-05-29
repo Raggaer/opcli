@@ -1,6 +1,7 @@
 use std::error;
 use std::fmt;
 use std::option;
+use std::process;
 use std::string;
 
 pub mod get;
@@ -81,4 +82,27 @@ pub fn execute_get_command(
             return;
         }
     };
+}
+
+pub fn execute_command_stdout<'a>(
+    command: &str,
+    args: Vec<String>,
+) -> Result<String, Box<dyn error::Error>> {
+    let cmd_output = process::Command::new(command).args(args).output()?;
+    let stdout = match std::str::from_utf8(&cmd_output.stdout) {
+        Ok(s) => s,
+        Err(err) => return Result::Err(Box::new(err)),
+    };
+    let stderr = match std::str::from_utf8(&cmd_output.stderr) {
+        Ok(s) => s,
+        Err(err) => return Result::Err(Box::new(err)),
+    };
+
+    // Handle output from stderr as an error
+    if !stderr.is_empty() {
+        return Result::Err(Box::new(crate::command::CommandExecuteError(
+            stderr.to_string(),
+        )));
+    }
+    return Ok(stdout.to_string());
 }
