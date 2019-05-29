@@ -16,38 +16,24 @@ pub fn execute_get_item_command(
     }
     let item_id = item.unwrap();
 
-    // Create op command
-    let cmd_output = process::Command::new("op")
-        .arg("get")
-        .arg("item")
-        .arg(item_id)
-        .output()?;
-    let stdout = match std::str::from_utf8(&cmd_output.stdout) {
-        Ok(s) => s,
-        Err(err) => return Result::Err(Box::new(err)),
+    let stdout = match crate::command::execute_command_stdout(
+        "op",
+        vec!["get".to_string(), "item".to_string(), item_id],
+    ) {
+        Ok(out) => out,
+        Err(e) => return Err(e),
     };
-    let stderr = match std::str::from_utf8(&cmd_output.stderr) {
-        Ok(s) => s,
-        Err(err) => return Result::Err(Box::new(err)),
-    };
-
-    // Handle output from stderr as an error
-    if !stderr.is_empty() {
-        return Result::Err(Box::new(crate::command::CommandExecuteError(
-            stderr.to_string(),
-        )));
-    }
 
     return parse_get_item_output(stdout, fields, password_only);
 }
 
 // Convert command stdout into human readable text
 fn parse_get_item_output(
-    output: &str,
+    output: String,
     fields: option::Option<string::String>,
     password_only: bool,
 ) -> Result<(), Box<dyn error::Error>> {
-    let item: crate::command::get::OpItem = serde_json::from_str(output)?;
+    let item: crate::command::get::OpItem = serde_json::from_str(&output)?;
 
     // Check if user only wants the password
     if password_only {
