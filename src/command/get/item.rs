@@ -3,29 +3,7 @@ use std::option;
 use std::process;
 use std::string;
 
-pub fn execute_command(
-    sub: option::Option<string::String>,
-    item: option::Option<string::String>,
-    fields: option::Option<string::String>,
-    password_only: bool,
-) {
-    match sub {
-        Some(s) => match s.as_str() {
-            "item" => {
-                if let Err(e) = execute_get_item_command(item, fields, password_only) {
-                    eprintln!("{}", e);
-                }
-            }
-            sub => eprintln!("Unkown subcommand '{}'", sub),
-        },
-        None => {
-            eprintln!("Missing subcommand flag (-s)");
-            return;
-        }
-    };
-}
-
-fn execute_get_item_command(
+pub fn execute_get_item_command(
     item: option::Option<string::String>,
     fields: option::Option<string::String>,
     password_only: bool,

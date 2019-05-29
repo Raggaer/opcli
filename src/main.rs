@@ -31,7 +31,7 @@ fn run(opts: getopts::Options, matches: getopts::Matches) {
     }
     match matches.opt_str("c") {
         Some(command) => match command.as_str() {
-            "get" => command::get::execute_command(
+            "get" => command::execute_command(
                 matches.opt_str("s"),
                 matches.opt_str("i"),
                 matches.opt_str("f"),

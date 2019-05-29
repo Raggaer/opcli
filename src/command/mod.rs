@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::error;
 use std::fmt;
+use std::option;
 use std::string;
 
 pub mod get;
@@ -66,3 +67,27 @@ impl error::Error for MissingCommandError {}
 impl error::Error for CommandExecuteError {}
 
 impl error::Error for CommandJSONError {}
+
+pub fn execute_command(
+    sub: option::Option<string::String>,
+    item: option::Option<string::String>,
+    fields: option::Option<string::String>,
+    password_only: bool,
+) {
+    match sub {
+        Some(s) => match s.as_str() {
+            "item" => {
+                if let Err(e) =
+                    crate::command::get::item::execute_get_item_command(item, fields, password_only)
+                {
+                    eprintln!("{}", e);
+                }
+            }
+            sub => eprintln!("Unkown subcommand '{}'", sub),
+        },
+        None => {
+            eprintln!("Missing subcommand flag (-s)");
+            return;
+        }
+    };
+}
