@@ -23,3 +23,20 @@ or to copy the item password directly to your clipboard (using `xclip`).
 ```
 ./opcli -c "get" -s "item" -i "My Super Secure Email Login" -f "username, password"
 ```
+
+## Search for an item
+
+In order to search for an item (for example you dont remember the exact name, or want to search for its UUID), 
+you need to use the following flags:
+
+- `-c`: Specify the command we want to run, in this case `list`.
+- `-s`: The type of object we want to retrieve, in this case `item`.
+- `--search` Substring of the item name or item UUID you want to look for.
+
+```
+./opcli -c "list" -s "item" --search "uni website"
+```
+
+# License
+
+`opcli` is licensed under the MIT license.
