@@ -5,15 +5,15 @@ use std::process;
 use std::string;
 
 #[derive(Debug)]
-struct ProcessNoStdinError(String);
+pub struct ClipboardError(pub String);
 
-impl fmt::Display for ProcessNoStdinError {
+impl fmt::Display for ClipboardError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{}", self.0)
     }
 }
 
-impl error::Error for ProcessNoStdinError {}
+impl error::Error for ClipboardError {}
 
 pub fn write(s: string::String) -> Result<(), Box<dyn error::Error>> {
     let child = process::Command::new("xclip")
@@ -25,7 +25,7 @@ pub fn write(s: string::String) -> Result<(), Box<dyn error::Error>> {
     let mut stdin = match child.stdin {
         Some(stdin) => stdin,
         None => {
-            return Result::Err(Box::new(ProcessNoStdinError(
+            return Result::Err(Box::new(ClipboardError(
                 "Cant open xclip command Stdin".to_string(),
             )));
         }

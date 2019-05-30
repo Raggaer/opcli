@@ -14,9 +14,6 @@ struct MissingCommandError(String);
 #[derive(Debug)]
 struct CommandExecuteError(String);
 
-#[derive(Debug)]
-struct CommandJSONError(String);
-
 #[derive(Serialize, Deserialize, Debug)]
 struct OpItem {
     uuid: String,
@@ -74,17 +71,9 @@ impl fmt::Display for CommandExecuteError {
     }
 }
 
-impl fmt::Display for CommandJSONError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{}", self.0)
-    }
-}
-
 impl error::Error for MissingCommandError {}
 
 impl error::Error for CommandExecuteError {}
-
-impl error::Error for CommandJSONError {}
 
 pub fn execute_list_command(
     sub: option::Option<string::String>,
@@ -118,8 +107,8 @@ pub fn execute_get_command(
                 if let Err(e) =
                     crate::command::get::item::execute_get_item_command(item, fields, password_only)
                 {
-                    eprintln!("{}", e);
-                }
+                    println!("{}", e);
+                };
             }
             sub => eprintln!("Unkown subcommand '{}'", sub),
         },
