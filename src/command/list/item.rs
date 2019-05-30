@@ -5,6 +5,7 @@ use std::string;
 pub fn execute_list_item_command(
     search: option::Option<string::String>,
 ) -> Result<(), Box<dyn error::Error>> {
+    // Retrieve JSON
     let stdout = match crate::command::execute_command_stdout(
         "op",
         vec!["list".to_string(), "items".to_string()],
@@ -28,6 +29,7 @@ fn parse_list_item_output(
 }
 
 fn show_list_item(mut list: Vec<crate::command::OpItem>, query: &str) {
+    // If query is not empty modify the list with matched items
     if !query.is_empty() {
         list = list
             .into_iter()
