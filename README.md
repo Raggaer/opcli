@@ -1,6 +1,6 @@
 # opcli
 
-Basic wrapper for the 1Password `op` command line application.
+Basic wrapper for the 1Password `op` command line application, mostly for items.
 Basically its just a simple wrapper to do `op` actions (view, edit, delete an item, ...)
 
 You can use the flag `-h` to get more help about all the possible options.
