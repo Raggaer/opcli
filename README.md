@@ -5,6 +5,12 @@ Basically its just a simple wrapper to do `op` actions (view, edit, delete an it
 
 You can use the flag `-h` to get more help about all the possible options.
 
+# Authentication
+
+This application does not handle authentication, you should use `op signin` before using `opcli`.
+Its recommended to signin everytime you want to retrieve a password. You can do the `eval ...` trick and keep the terminal session ope,
+that way you can use `opcli` before your session ends.
+
 ## Get an item
 
 In order to retrieve an item, you need to use the following flags:
@@ -31,7 +37,7 @@ you need to use the following flags:
 
 - `-c`: Specify the command we want to run, in this case `list`.
 - `-s`: The type of object we want to retrieve, in this case `item`.
-- `--search` Substring of the item name or item UUID you want to look for.
+- `--search` Substring of the item name or URL you want to look for.
 
 ```
 ./opcli -c "list" -s "item" --search "uni website"
