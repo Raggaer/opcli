@@ -37,7 +37,9 @@ fn run(opts: getopts::Options, matches: getopts::Matches) {
                 matches.opt_str("f"),
                 matches.opt_present("pw"),
             ),
-            "list" => command::execute_list_command(matches.opt_str("s"), matches.opt_str("s")),
+            "list" => {
+                command::execute_list_command(matches.opt_str("s"), matches.opt_str("search"))
+            }
             _ => (),
         },
         None => process::exit(1),

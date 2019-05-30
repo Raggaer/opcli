@@ -24,7 +24,7 @@ pub fn execute_get_item_command(
         Err(e) => return Err(e),
     };
 
-    return parse_get_item_output(stdout, fields, password_only);
+    parse_get_item_output(stdout, fields, password_only)
 }
 
 // Convert command stdout into human readable text
@@ -33,7 +33,7 @@ fn parse_get_item_output(
     fields: option::Option<string::String>,
     password_only: bool,
 ) -> Result<(), Box<dyn error::Error>> {
-    let item: crate::command::get::OpItem = serde_json::from_str(&output)?;
+    let item: crate::command::OpItem = serde_json::from_str(&output)?;
 
     // Check if user only wants the password
     if password_only {

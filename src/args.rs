@@ -12,7 +12,7 @@ pub fn build_args() -> getopts::Options {
     opts.optopt("s", "sub", "Subcommand to execute", "");
     opts.optopt("i", "item", "Item, mostly for 'get item' calls", "");
     opts.optopt("", "search", "Search term, mostly for 'list' calls", "");
-    opts.optopt("f", "fields", "List of fields to retrieve", "*");
+    opts.optopt("f", "fields", "List of fields to retrieve", "");
     opts
 }
 
