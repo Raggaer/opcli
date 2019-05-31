@@ -37,6 +37,7 @@ fn parse_get_item_output(
     // Check if user only wants the password
     if password_only {
         crate::clipboard::write(item.get_field("password".to_string()))?;
+        println!("Item password copied to clipboard");
     }
 
     match fields {
@@ -54,7 +55,7 @@ fn parse_get_item_output(
                 }
             }
         }
-        None => (),
+        None => println!("Missing field items to retrieve (--fields)"),
     }
     Ok(())
 }
