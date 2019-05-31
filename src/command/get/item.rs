@@ -38,6 +38,7 @@ fn parse_get_item_output(
     if password_only {
         crate::clipboard::write(item.get_field("password".to_string()))?;
         println!("Item password copied to clipboard");
+        return Ok(());
     }
 
     match fields {
