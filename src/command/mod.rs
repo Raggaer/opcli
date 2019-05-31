@@ -107,7 +107,7 @@ pub fn execute_get_command(
                 if let Err(e) =
                     crate::command::get::item::execute_get_item_command(item, fields, password_only)
                 {
-                    println!("{}", e);
+                    eprintln!("{}", e);
                 };
             }
             sub => eprintln!("Unkown subcommand '{}'", sub),
