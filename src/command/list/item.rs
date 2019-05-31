@@ -33,7 +33,7 @@ fn show_list_item(mut list: Vec<crate::command::OpItem>, query: &str) {
     if !query.is_empty() {
         list = list
             .into_iter()
-            .filter(|item| item.overview.title.contains(query) && item.overview.url.contains(query))
+            .filter(|item| item.overview.title.contains(query) || item.overview.url.contains(query))
             .collect();
     }
     for (i, item) in list.iter().enumerate() {
