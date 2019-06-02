@@ -42,6 +42,14 @@ struct OpField {
     value: String,
 }
 
+#[derive(Serialize, Deserialize, Debug)]
+struct OpUser {
+    uuid: String,
+    firstName: String,
+    lastName: String,
+    email: String,
+}
+
 impl Default for OpDetails {
     fn default() -> Self {
         OpDetails { fields: vec![] }
@@ -81,8 +89,13 @@ pub fn execute_list_command(
 ) {
     match sub {
         Some(s) => match s.as_str() {
-            "item" => {
+            "items" => {
                 if let Err(e) = crate::command::list::item::execute_list_item_command(search) {
+                    eprintln!("{}", e);
+                }
+            }
+            "users" => {
+                if let Err(e) = crate::command::list::user::execute_list_user_command() {
                     eprintln!("{}", e);
                 }
             }
