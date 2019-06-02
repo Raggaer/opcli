@@ -15,6 +15,22 @@ This application does not handle authentication, you should use `op signin` befo
 Its recommended to signin everytime you want to retrieve a password. You can do the `eval ...` trick and keep the terminal session ope,
 that way you can use `opcli` before your session ends.
 
+This tool is meant to be used on your terminal, maybe creating a helper function to quickly access your secure passwords:
+
+```bash
+# Function to retrieve 1Password items using opcli
+function pwget {
+	if [ -n "$1" ]; then
+		if [ -z "${OP_SESSION_my}" ]; then
+			eval $(op signin)
+		fi
+		opcli -c "get" -s "item" -i "$1" --pw
+	else
+		echo "Provide an item to retrieve the password!"
+	fi
+}
+```
+
 ## Get an item
 
 In order to retrieve an item, you need to use the following flags:
