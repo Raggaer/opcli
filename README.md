@@ -5,6 +5,10 @@ Basically its just a simple wrapper to do `op` actions (view, edit, delete an it
 
 You can use the flag `-h` to get more help about all the possible options.
 
+- [x] View an item.
+- [x] View a list of users.
+- [x] View a list of items.
+
 # Authentication
 
 This application does not handle authentication, you should use `op signin` before using `opcli`.
