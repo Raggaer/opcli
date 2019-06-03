@@ -87,25 +87,23 @@ pub fn execute_list_command(
     sub: option::Option<string::String>,
     search: option::Option<string::String>,
 ) {
-    match sub {
+    let r = match sub {
         Some(s) => match s.as_str() {
-            "items" => {
-                if let Err(e) = crate::command::list::item::execute_list_item_command(search) {
-                    eprintln!("{}", e);
-                }
+            "items" => crate::command::list::item::execute_list_item_command(search),
+            "users" => crate::command::list::user::execute_list_user_command(),
+            sub => {
+                eprintln!("Unkown subcommand '{}'", sub);
+                Ok(())
             }
-            "users" => {
-                if let Err(e) = crate::command::list::user::execute_list_user_command() {
-                    eprintln!("{}", e);
-                }
-            }
-            sub => eprintln!("Unkown subcommand '{}'", sub),
         },
         None => {
             eprintln!("Missing subcommand flag (-s)");
-            return;
+            Ok(())
         }
     };
+    if let Err(e) = r {
+        eprintln!("{}", e);
+    }
 }
 
 pub fn execute_get_command(
@@ -114,22 +112,24 @@ pub fn execute_get_command(
     fields: option::Option<string::String>,
     password_only: bool,
 ) {
-    match sub {
+    let r = match sub {
         Some(s) => match s.as_str() {
             "item" => {
-                if let Err(e) =
-                    crate::command::get::item::execute_get_item_command(item, fields, password_only)
-                {
-                    eprintln!("{}", e);
-                };
+                crate::command::get::item::execute_get_item_command(item, fields, password_only)
             }
-            sub => eprintln!("Unkown subcommand '{}'", sub),
+            sub => {
+                eprintln!("Unkown subcommand '{}'", sub);
+                Ok(())
+            }
         },
         None => {
             eprintln!("Missing subcommand flag (-s)");
-            return;
+            Ok(())
         }
     };
+    if let Err(e) = r {
+        eprintln!("{}", e);
+    }
 }
 
 pub fn execute_command_stdout(
