@@ -1,5 +1,4 @@
 use std::error;
-use std::string;
 
 pub fn execute_list_user_command() -> Result<(), Box<dyn error::Error>> {
     // Retrieve JSON

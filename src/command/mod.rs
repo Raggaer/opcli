@@ -92,17 +92,17 @@ pub fn execute_list_command(
             "items" => crate::command::list::item::execute_list_item_command(search),
             "users" => crate::command::list::user::execute_list_user_command(),
             sub => {
-                eprintln!("Unkown subcommand '{}'", sub);
+                eprint!("Unkown subcommand '{}'", sub);
                 Ok(())
             }
         },
         None => {
-            eprintln!("Missing subcommand flag (-s)");
+            eprint!("Missing subcommand flag (-s)");
             Ok(())
         }
     };
     if let Err(e) = r {
-        eprintln!("{}", e);
+        eprint!("{}", e);
     }
 }
 
